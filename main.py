@@ -3,11 +3,12 @@ from fastapi.responses import HTMLResponse
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 import logic 
+import os
 from datetime import datetime
 import json
 
 # --- CONFIGURATION ---
-MY_API_KEY = "YOUR_GEMINI_API_KEY_HERE"
+MY_API_KEY = os.getenv("MY_API_KEY")
 
 limiter = Limiter(key_func=get_remote_address)
 app = FastAPI(title="AppScrip AI Trade Engineer")
@@ -82,9 +83,18 @@ HTML_TEMPLATE = """
 </html>
 """
 
+# @app.get("/")
+# def home():
+#     return {"message": "System Active. Now click /analyze/sectorname"}
+
 @app.get("/")
 def home():
-    return {"message": "System Active"}
+    return {
+        "status": "System Active",
+        "message": "Welcome to the AppScrip AI Trade Opportunity API",
+        "instructions": "To analyze a sector, add /analyze/{sector_name} to the URL.",
+        "example_link": "https://trade-opportunity-analyzer.onrender.com/analyze/pharmaceuticals"
+    }
 
 # FIXED: Removed the double curly braces here
 @app.get("/analyze/{sector}")
