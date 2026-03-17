@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+google-generativeai
+duckduckgo-search
+slowapi
+python-multipart
